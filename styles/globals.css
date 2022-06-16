@@ -1,3 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;700;800&display=swap");
+/* Rectangle 73 */
+
+@layer components {
+  .gradient {
+    background: linear-gradient(
+      268.08deg,
+      #0C0B0D 3.02%,
+      rgba(12, 11, 13, 0.272326) 96.2%,
+      rgba(217, 217, 217, 0) 113.61%
+    );
+  }
+  
+}
+
 html,
 body {
   padding: 0;
@@ -13,4 +31,8 @@ a {
 
 * {
   box-sizing: border-box;
+}
+::-webkit-scrollbar {
+  display: hidden;
+  visibility: hidden;
 }
