@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Layout from "../../components/Layout";
 import {
   startOfToday,
   format,
@@ -73,11 +74,11 @@ function IndexPage() {
     isSameDay(parseISO(meeting.time), selectedDay)
   );
   return (
-    <>
-      <div className="flex items-center justify-center py-8 px-4">
-        <div className="2xl:w-1/3 xl:w-1/2 lg:w-3/5 sm:w-4/5 w-full shadow-lg">
-          <div className="md:p-16 md:pb-12 p-5 dark:bg-gray-800 bg-white rounded-t">
-            <div className="px-4 flex items-center justify-between">
+    <Layout className="flex flex-row relative w-screen">
+      <div className=" py-8 px-4 w-full">
+        <div className="2xl:w-full xl:w-1/2 lg:w-3/5 sm:w-4/5 w-full shadow-lg flex">
+          <div className="md:p-16 w-3/5 md:pb-12 flex flex-col p-5 dark:bg-gray-800 bg-white rounded-t">
+            <div className="px-4 flex 1 items-center justify-between">
               <h1 className="text-2xl font-bold dark:text-gray-100 text-gray-800">
                 {format(firstDayOfTheMonth, "MMM yyyy")}
               </h1>
@@ -136,7 +137,7 @@ function IndexPage() {
               </div>
             </div>
           </div>
-          <div className="md:py-8 py-5 md:px-16 px-5 dark:bg-gray-700 bg-gray-50 rounded-b">
+          <div className="md:py-8 py-5 w-2/5 md:px-16 px-5 dark:bg-gray-700 bg-gray-50 rounded-b">
             <div className="px-4">
               {meetingDays.map((meeting, index) => (
                 <MeetingCards meeting={meeting} index={index} />
@@ -150,7 +151,7 @@ function IndexPage() {
           </div>
         </div>
       </div>
-    </>
+    </Layout>
   );
 }
 export default IndexPage;

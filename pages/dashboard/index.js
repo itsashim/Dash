@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Layout from "../../components/Layout";
 import MasterCard from "../../components/MasterCard";
+import IconInput from "../../components/Input/IconInput";
 import { BsSearch } from "react-icons/bs";
 import { BsCreditCard2Back } from "react-icons/bs";
 import { FaMobileAlt } from "react-icons/fa";
@@ -120,7 +121,9 @@ function Dashboard() {
         </div>
         {/* Balance Cards */}
         <div className="flex flex-row justify-between mt-5 pr-5">
-          <BalanceCards balanceCardInfo={balanceCardInfo} />
+          {balanceCardInfo.map((balanceCardInfo) => (
+            <BalanceCards balanceCardInfo={balanceCardInfo} />
+          ))}
         </div>
         {/* Product Cards */}
         <div className="relative top-4 pr-5 w-20%">
@@ -131,7 +134,17 @@ function Dashboard() {
         </div>
 
         <div className="w-full flex flex-row justify-between  pr-5 mt-5">
-          <ProductCardInfo productCardInfo={productCardInfo} />
+          {productCardInfo.map((card, index) => {
+            const divStyleWithIndex = index === 0 ? "mr-4 mt-6" : "ml-4";
+
+            return (
+              <ProductCardInfo
+                card={card}
+                index={index}
+                divStyleWithIndex={divStyleWithIndex}
+              />
+            );
+          })}
         </div>
       </div>
       {/* Right Side Pannel */}
@@ -177,7 +190,9 @@ function Dashboard() {
           {/* Company Info */}
           <div className="w-full  mt-5  overflow-y-scroll flex flex-col justify-center items-center ">
             <div className="w-3/5  flex flex-col justify-center items-center ">
-              <CompanyInfoCards comapnyInfo={companyInfo} />
+              {companyInfo?.map((item, index) => (
+                <CompanyInfoCards item={item} index={index} />
+              ))}
             </div>
           </div>
         </div>
@@ -187,76 +202,67 @@ function Dashboard() {
 }
 
 export default Dashboard;
-const BalanceCards = ({ balanceCardInfo }) => {
-  balanceCardInfo.map((cardItem, index) => {
-    return (
-      <div
-        className="w-52 shadow-card h-48 rounded-lg bg-white p-4 cursor-pointer "
-        key={index}
-      >
-        {cardItem.icon}
-        <p
-          className="font-light font-openSans pb-2 pt-2.5"
-          dangerouslySetInnerHTML={{ __html: cardItem.desc }}
-        ></p>
-        <p
-          className="font-bold font-openSans text-2xl"
-          dangerouslySetInnerHTML={{ __html: cardItem.total }}
-        ></p>
-      </div>
-    );
-  });
+const BalanceCards = ({ balanceCardInfo, index }) => {
+  return (
+    <div
+      className="w-52 shadow-card h-48 rounded-lg bg-white p-4 cursor-pointer "
+      key={index}
+    >
+      {balanceCardInfo.icon}
+      <p
+        className="font-light font-openSans pb-2 pt-2.5"
+        dangerouslySetInnerHTML={{ __html: balanceCardInfo.desc }}
+      ></p>
+      <p
+        className="font-bold font-openSans text-2xl"
+        dangerouslySetInnerHTML={{ __html: balanceCardInfo.total }}
+      ></p>
+    </div>
+  );
 };
-const ProductCardInfo = ({ productCardInfo }) => {
-  productCardInfo.map((card, index) => {
-    const divStyleWithIndex = index === 0 ? "mr-4 mt-6" : "ml-4";
-    return (
-      <div className={`w-full ${divStyleWithIndex}`} key={index}>
-        {card.map((cardItem, index) => {
-          return (
-            <div
-              key={index}
-              className={`w-full shadow-card h-48 ${cardItem.color} rounded-lg  p-4 mb-4`}
-            >
-              <p
-                className="font-openSans font-bold text-xl pb-2"
-                dangerouslySetInnerHTML={{ __html: cardItem.title }}
-              ></p>
-              <p
-                className="font-light font-openSans pb-2"
-                dangerouslySetInnerHTML={{ __html: cardItem.desc }}
-              ></p>
-              <p
-                className="font-bold font-openSans text-2xl"
-                dangerouslySetInnerHTML={{ __html: cardItem.total }}
-              ></p>
-            </div>
-          );
-        })}
-      </div>
-    );
-  });
-};
-const CompanyInfoCards = ({ companyInfo }) => {
-  companyInfo.map((item, index) => {
-    return (
-      <div
-        className="w-full flex flex-row justify-between items-center mb-4"
-        key={index}
-      >
-        <div className="h-12 w-12 rounded-full bg-pinkWhite flex justify-center items-center">
-          {item.icon}
-        </div>
-        <div className="h-8 flex flex-col justify-between items-end">
-          <p className="font-openSans font-thin text-black text-xs ">
-            {item.title}
-          </p>
+const ProductCardInfo = ({ card, index, divStyleWithIndex }) => (
+  <div className={`w-full ${divStyleWithIndex}`} key={index}>
+    {card.map((cardItem, index) => {
+      return (
+        <div
+          key={index}
+          className={`w-full shadow-card h-48 ${cardItem.color} rounded-lg  p-4 mb-4`}
+        >
           <p
-            className="text-2sm font-bold font-open-Sans "
-            dangerouslySetInnerHTML={{ __html: item.total }}
+            className="font-openSans font-bold text-xl pb-2"
+            dangerouslySetInnerHTML={{ __html: cardItem.title }}
+          ></p>
+          <p
+            className="font-light font-openSans pb-2"
+            dangerouslySetInnerHTML={{ __html: cardItem.desc }}
+          ></p>
+          <p
+            className="font-bold font-openSans text-2xl"
+            dangerouslySetInnerHTML={{ __html: cardItem.total }}
           ></p>
         </div>
+      );
+    })}
+  </div>
+);
+const CompanyInfoCards = ({ item, index }) => {
+  return (
+    <div
+      className="w-full flex flex-row justify-between items-center mb-4"
+      key={index}
+    >
+      <div className="h-12 w-12 rounded-full bg-pinkWhite flex justify-center items-center">
+        {item.icon}
       </div>
-    );
-  });
+      <div className="h-8 flex flex-col justify-between items-end">
+        <p className="font-openSans font-thin text-black text-xs ">
+          {item.title}
+        </p>
+        <p
+          className="text-2sm font-bold font-open-Sans "
+          dangerouslySetInnerHTML={{ __html: item.total }}
+        ></p>
+      </div>
+    </div>
+  );
 };
